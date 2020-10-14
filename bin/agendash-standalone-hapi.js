@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-var-requires */
 
 const { Agenda } = require('@hokify/agenda');
 const Hapi = require('@hapi/hapi');

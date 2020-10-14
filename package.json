@@ -11,7 +11,6 @@
     "postversion": "npm publish",
     "postpublish": "git push origin --all; git push origin --tags",
     "test": "run-p lint ava",
-    "lint": "eslint --fix public/app/js",
     "ava": "ava -v -c 1"
   },
   "keywords": [

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+/* eslint-disable @typescript-eslint/no-var-requires */
 const http = require('http');
 const { Agenda } = require('@hokify/agenda');
 const express = require('express');
