@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const confirmRequeueMulti = Vue.component('confirm-multi-requeue', {
 	props: ['jobs'],
 	methods: {
