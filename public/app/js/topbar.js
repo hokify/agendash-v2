@@ -76,8 +76,8 @@ const topbar = Vue.component("topbar", {
     </div>
     <div class="row mb-3">
       <div class="col-xs-12 col-md-3 ml-auto text-right">
-        <button type=submit @click="$emit('search-form', name, search, property, limit, skip, refresh, state, object)" class="d-none d-md-inline-block btn btn-success"> Apply </button>
-        <button type=submit @click="$emit('search-form', name, search, property, limit, skip, refresh, state, object)" class="d-none d-inline-block d-md-none btn btn-block btn-success"> Apply </button>
+        <button type=submit class="d-none d-md-inline-block btn btn-success"> Apply </button>
+        <button type=submit class="d-none d-inline-block d-md-none btn btn-block btn-success"> Apply </button>
       </div>
     </div>
   </form>

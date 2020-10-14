@@ -74,7 +74,7 @@ const app = Vue.component('app', {
         this.skip = skip,
         this.refresh = refresh,
         this.state = state,
-        this.object = object ? object : this.object,
+        this.object = object,
 
         this.fetchData(this.name, this.search, this.property, this.pagesize, this.skip, this.refresh, this.state, this.object)
     },
