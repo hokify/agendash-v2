@@ -1,37 +1,39 @@
+// eslint-disable-next-line no-unused-vars
 const newJob = Vue.component('new-job', {
-  data: () =>({
-    jobName: '',
-    jobSchedule: '',
-    jobRepeatEvery: '',
-    jobData: `{ "name": "Your medatada goes here..." }`,
-  }),
-  props: ['job'],
-  methods: {
-    clear(){
-      this.jobName = '',
-      this.jobSchedule = '',
-      this.jobRepeatEvery = '',
-      this.jobData = ''
-    },
-    create(){
-      const url = `api/jobs/create`;
-      let body = {
-        jobName: this.jobName,
-        jobSchedule: this.jobSchedule,
-        jobRepeatEvery: this.jobRepeatEvery,
-        jobData: JSON.parse(this.jobData),
-      };
-      return axios.post(url, body)
-        .then(result => result.data)
-        .then(data => {
-          this.$emit('popup-message');
-          this.$emit('refresh-data');
-          this.clear();
-        })
-        .catch(console.log)
-    }
-  },
-  template: `
+	data: () => ({
+		jobName: '',
+		jobSchedule: '',
+		jobRepeatEvery: '',
+		jobData: `{ "name": "Your medatada goes here..." }`
+	}),
+	props: ['job'],
+	methods: {
+		clear() {
+			this.jobName = '';
+			this.jobSchedule = '';
+			this.jobRepeatEvery = '';
+			this.jobData = '';
+		},
+		create() {
+			const url = `api/jobs/create`;
+			const body = {
+				jobName: this.jobName,
+				jobSchedule: this.jobSchedule,
+				jobRepeatEvery: this.jobRepeatEvery,
+				jobData: JSON.parse(this.jobData)
+			};
+			return axios
+				.post(url, body)
+				.then(result => result.data)
+				.then(() => {
+					this.$emit('popup-message');
+					this.$emit('refresh-data');
+					this.clear();
+				})
+				.catch(console.log);
+		}
+	},
+	template: `
   <div class="modal fade" id="modalNewJob" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <!-- Modal -->
     <div class="modal-dialog" role="document">
@@ -72,4 +74,4 @@ const newJob = Vue.component('new-job', {
     </div>
   </div>
   `
-})
+});

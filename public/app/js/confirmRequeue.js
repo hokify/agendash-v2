@@ -1,19 +1,21 @@
+// eslint-disable-next-line no-unused-vars
 const confirmRequeue = Vue.component('confirm-requeue', {
-  props: ['job'],
-  methods: {
-    RequeueOne(id){
-      const url = `api/jobs/requeue`;
-      let body = {jobIds: [id]};
-      return axios.post(url, body)
-        .then(result => result.data)
-        .then(data => {
-          this.$emit('popup-message');
-          this.$emit('refresh-data');
-        })
-        .catch(console.log)
-    }
-  },
-  template: `
+	props: ['job'],
+	methods: {
+		RequeueOne(id) {
+			const url = `api/jobs/requeue`;
+			const body = { jobIds: [id] };
+			return axios
+				.post(url, body)
+				.then(result => result.data)
+				.then(() => {
+					this.$emit('popup-message');
+					this.$emit('refresh-data');
+				})
+				.catch(console.log);
+		}
+	},
+	template: `
   <div class="modal fade" id="modalRequeueSure" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <!-- Modal -->
     <div class="modal-dialog" role="document">
@@ -36,4 +38,4 @@ const confirmRequeue = Vue.component('confirm-requeue', {
     </div>
   </div>
   `
-})
+});

@@ -1,16 +1,17 @@
+// eslint-disable-next-line no-unused-vars
 const jobDetail = Vue.component('job-detail', {
-  props: ['job'],
-  filters: {
-    formatJSON(jsonstr){
-      return JSON.stringify(jsonstr, null, 2);
-    },
-  },
-  methods: {
-    formatDate(date){
-      return moment(date).format('DD-MM-YYYY HH:mm:ss')
-    }
-  },
-  template: `
+	props: ['job'],
+	filters: {
+		formatJSON(jsonstr) {
+			return JSON.stringify(jsonstr, null, 2);
+		}
+	},
+	methods: {
+		formatDate(date) {
+			return moment(date).format('DD-MM-YYYY HH:mm:ss');
+		}
+	},
+	template: `
   <div class="modal fade" id="modalData" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <!-- Modal -->
     <div class="modal-dialog" role="document">
@@ -45,4 +46,4 @@ const jobDetail = Vue.component('job-detail', {
     </div>
   </div>
   `
-})
+});

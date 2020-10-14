@@ -1,30 +1,41 @@
-const topbar = Vue.component("topbar", {
-  props: ["name", "state", "search", "property"],
-  data: () => ({
-    // search: '',
-    // property: 'data.id',
-    // name: '',
-    limit: 15,
-    skip: 0,
-    refresh: 60,
-    // state: '',
-    object: false,
-    stateobject: [
-      { text: "All", value: "", class: "" },
-      { text: "Scheduled", value: "scheduled", class: "" },
-      { text: "Queued", value: "queued", class: "text-primary" },
-      { text: "Running", value: "running", class: "text-warning" },
-      { text: "Completed", value: "completed", class: "text-success" },
-      { text: "Failed", value: "failed", class: "text-danger" },
-      { text: "Repeating", value: "repeating", class: "text-info" }
-    ]
-  }),
-  methods: {
-    submit() {
-      this.$emit('search-form', this.name, this.search, this.property, this.limit, this.skip, this.refresh, this.state, this.object)
-    }
-  },
-  template: `
+// eslint-disable-next-line no-unused-vars
+const topbar = Vue.component('topbar', {
+	props: ['name', 'state', 'search', 'property'],
+	data: () => ({
+		// search: '',
+		// property: 'data.id',
+		// name: '',
+		limit: 15,
+		skip: 0,
+		refresh: 60,
+		// state: '',
+		object: false,
+		stateobject: [
+			{ text: 'All', value: '', class: '' },
+			{ text: 'Scheduled', value: 'scheduled', class: '' },
+			{ text: 'Queued', value: 'queued', class: 'text-primary' },
+			{ text: 'Running', value: 'running', class: 'text-warning' },
+			{ text: 'Completed', value: 'completed', class: 'text-success' },
+			{ text: 'Failed', value: 'failed', class: 'text-danger' },
+			{ text: 'Repeating', value: 'repeating', class: 'text-info' }
+		]
+	}),
+	methods: {
+		submit() {
+			this.$emit(
+				'search-form',
+				this.name,
+				this.search,
+				this.property,
+				this.limit,
+				this.skip,
+				this.refresh,
+				this.state,
+				this.object
+			);
+		}
+	},
+	template: `
   <form @submit.prevent="submit">
     <div class="row">
       <div class="col-xs-12 col-md-6">
