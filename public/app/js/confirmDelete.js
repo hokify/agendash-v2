@@ -1,19 +1,21 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const confirmDelete = Vue.component('confirm-delete', {
-  props: ['job'],
-  methods: {
-    deleteOne(id){
-      const url = `api/jobs/delete`;
-      let body = {jobIds: [id]};
-      return axios.post(url, body)
-        .then(result => result.data)
-        .then(data => {
-          this.$emit('popup-message', 'delete');
-          this.$emit('refresh-data');
-        })
-        .catch(console.log)
-    }
-  },
-  template: `
+	props: ['job'],
+	methods: {
+		deleteOne(id) {
+			const url = `api/jobs/delete`;
+			const body = { jobIds: [id] };
+			return axios
+				.post(url, body)
+				.then(result => result.data)
+				.then(() => {
+					this.$emit('popup-message', 'delete');
+					this.$emit('refresh-data');
+				})
+				.catch(console.log);
+		}
+	},
+	template: `
   <div class="modal fade" id="modalDeleteSure" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <!-- Modal -->
     <div class="modal-dialog" role="document">
@@ -36,4 +38,4 @@ const confirmDelete = Vue.component('confirm-delete', {
     </div>
   </div>
   `
-})
+});

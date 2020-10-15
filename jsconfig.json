@@ -1,0 +1,11 @@
+{
+  "include": [
+    "./public/app/js/*.js",
+    "./bin/*.js",
+    "./lib/**/*.js",
+    "./test/*.js"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

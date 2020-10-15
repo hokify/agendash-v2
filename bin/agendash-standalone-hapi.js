@@ -1,44 +1,54 @@
 #!/usr/bin/env node
-'use strict';
-const http = require('http');
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 const { Agenda } = require('@hokify/agenda');
 const Hapi = require('@hapi/hapi');
 const program = require('commander');
 
 program
-  .option('-d, --db <db>', '[required] Mongo connection string, same as Agenda connection string')
-  .option('-c, --collection <collection>', '[optional] Mongo collection, same as Agenda collection name, default agendaJobs', 'agendaJobs')
-  .option('-p, --port <port>', '[optional] Server port, default 3000', (n, d) => Number(n) || d, 3000)
-  .option('-t, --title <title>', '[optional] Page title, default Agendash', 'Agendash')
-  .parse(process.argv);
+	.option('-d, --db <db>', '[required] Mongo connection string, same as Agenda connection string')
+	.option(
+		'-c, --collection <collection>',
+		'[optional] Mongo collection, same as Agenda collection name, default agendaJobs',
+		'agendaJobs'
+	)
+	.option(
+		'-p, --port <port>',
+		'[optional] Server port, default 3000',
+		(n, d) => Number(n) || d,
+		3000
+	)
+	.option('-t, --title <title>', '[optional] Page title, default Agendash', 'Agendash')
+	.parse(process.argv);
 
 if (!program.db) {
-  console.error('--db required');
-  process.exit(1);
+	console.error('--db required');
+	process.exit(1);
 }
 
 const init = async () => {
+	const server = Hapi.server({
+		port: 3002,
+		host: 'localhost'
+	});
 
-  const server = Hapi.server({
-      port: 3002,
-      host: 'localhost'
-  });
+	const agenda = new Agenda();
+	await agenda.database(program.db, program.collection);
 
-  const agenda = new Agenda();
-  await agenda.database(program.db, program.collection)
+	await server.register(require('@hapi/inert'));
+	await server.register(
+		require('../app')(agenda, {
+			middleware: 'hapi'
+		})
+	);
 
-  await server.register(require('@hapi/inert'));
-  await server.register(require('../app')(agenda, {
-    middleware: 'hapi'
-  }));
-
-  await server.start();
-  console.log('HAPI Server running on %s', server.info.uri);
+	await server.start();
+	console.log('HAPI Server running on %s', server.info.uri);
 };
 
-  process.on('unhandledRejection', (err) => {
-    console.log(err);
-    process.exit(1);
+process.on('unhandledRejection', err => {
+	console.log(err);
+	process.exit(1);
 });
 
 init();

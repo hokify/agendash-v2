@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "@hokify/eslint-config"
+  ],
+  "parserOptions": {
+    "project": "jsconfig.json",
+    "ecmaVersion": 2015
+  },
+  "rules": {
+    "no-undef": 0,
+    "no-underscore-dangle": 0,
+    "global-require": 0,
+    "no-param-reassign": 0,
+    "import/no-unresolved": 0
+  }
+}

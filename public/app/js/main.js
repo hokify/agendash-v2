@@ -1,157 +1,196 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const app = Vue.component('app', {
-  data: () => ({
-    jobs: [],
-    overview: [],
-    refresh: 60,
-    showDetail: false,
-    pagenumber: 1,
-    showConfirm: false,
-    showConfirmMulti: false,
-    showConfirmRequeue: false,
-    showConfirmRequeueMulti: false,
-    showNewJob: false,
-    jobData: {},
-    deletec: false,
-    requeuec: false,
-    pagesize: 15,
-    sendClean: false,
-    createc: false,
-    property: '',
-    search: '',
-    object: '',
-    newLimit: null,
-    skip: 0,
-    name: '',
-    state: '',
-    nameprop: '',
-    loading: false,
-    hideSlide: true,
-  }),
-  methods: {
-    openNav() {
-      document.getElementById("mySidebar").style.width = "100%";
-      document.getElementById("main").style.marginLeft = "100%";
-      this.hideSlide = false
-    },
-    closeNav() {
-      document.getElementById("mySidebar").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
-      this.hideSlide = true
-    },
-    showJobDetail(data){
-      this.jobData = data;
-      this.showDetail = true;
-    },
-    readyClean(){
-      this.sendClean = true;
-    },
-    confirmDelete(data){
-      this.jobData = data;
-      this.showConfirm = true;
-    },
-    confirmDeleteMulti(data){
-      this.jobData = data;
-      this.showConfirmMulti = true;
-    },
-    confirmRequeue(data){
-      this.jobData = data;
-      this.showConfirmRequeue = true;
-    },
-    confirmRequeueMulti(data){
-      this.jobData = data;
-      this.showConfirmRequeueMulti = true;
-    },
-    newJob(data){
-      this.jobData = data;
-      this.showNewJob = true;
-    },
-    searchForm(name, search, property, limit, skip, refresh, state, object){
-        this.pagesize = limit ? limit : this.pagesize,
-        this.name = name,
-        this.search = search,
-        this.property = property,
+	data: () => ({
+		jobs: [],
+		overview: [],
+		refresh: 60,
+		showDetail: false,
+		pagenumber: 1,
+		showConfirm: false,
+		showConfirmMulti: false,
+		showConfirmRequeue: false,
+		showConfirmRequeueMulti: false,
+		showNewJob: false,
+		jobData: {},
+		deletec: false,
+		requeuec: false,
+		pagesize: 15,
+		sendClean: false,
+		createc: false,
+		property: '',
+		search: '',
+		object: '',
+		newLimit: null,
+		skip: 0,
+		name: '',
+		state: '',
+		nameprop: '',
+		loading: false,
+		hideSlide: true
+	}),
+	methods: {
+		openNav() {
+			document.getElementById('mySidebar').style.width = '100%';
+			document.getElementById('main').style.marginLeft = '100%';
+			this.hideSlide = false;
+		},
+		closeNav() {
+			document.getElementById('mySidebar').style.width = '0';
+			document.getElementById('main').style.marginLeft = '0';
+			this.hideSlide = true;
+		},
+		showJobDetail(data) {
+			this.jobData = data;
+			this.showDetail = true;
+		},
+		readyClean() {
+			this.sendClean = true;
+		},
+		confirmDelete(data) {
+			this.jobData = data;
+			this.showConfirm = true;
+		},
+		confirmDeleteMulti(data) {
+			this.jobData = data;
+			this.showConfirmMulti = true;
+		},
+		confirmRequeue(data) {
+			this.jobData = data;
+			this.showConfirmRequeue = true;
+		},
+		confirmRequeueMulti(data) {
+			this.jobData = data;
+			this.showConfirmRequeueMulti = true;
+		},
+		newJob(data) {
+			this.jobData = data;
+			this.showNewJob = true;
+		},
+		searchForm(name, search, property, limit, skip, refresh, state, object) {
+			this.pagesize = limit || this.pagesize;
+			this.name = name;
+			this.search = search;
+			this.property = property;
+			this.skip = skip;
+			this.refresh = refresh;
+			this.state = state;
+			this.object = object;
 
-        this.skip = skip,
-        this.refresh = refresh,
-        this.state = state,
-        this.object = object,
+			this.fetchData(
+				this.name,
+				this.search,
+				this.property,
+				this.pagesize,
+				this.skip,
+				this.refresh,
+				this.state,
+				this.object
+			);
+		},
+		refreshData() {
+			this.fetchData(
+				this.name,
+				this.search,
+				this.property,
+				this.pagesize,
+				this.skip,
+				this.refresh,
+				this.state,
+				this.object
+			);
+		},
+		pagechange(action) {
+			if (action === 'next') {
+				this.pagenumber += 1;
+			}
+			if (action === 'prev') {
+				this.pagenumber -= 1;
+			}
+			this.skip = (this.pagenumber - 1) * this.pagesize;
+			this.fetchData(
+				this.name,
+				this.search,
+				this.property,
+				this.pagesize,
+				this.skip,
+				this.refresh,
+				this.state,
+				this.object
+			);
+		},
+		fetchData(
+			name = '',
+			search = '',
+			property = '',
+			limit = 15,
+			skip = 0,
+			refresh = 60,
+			state = '',
+			object
+		) {
+			this.loading = true;
+			this.pagesize = this.pagesize === 0 ? parseInt(limit, 10) : this.pagesize;
+			this.refresh = parseFloat(refresh);
+			const url = `api?limit=${limit}&job=${name}&skip=${skip}&property=${property}${
+				object ? '&isObjectId=true' : ''
+			}${state ? `&state=${state}` : ''}&q=${search}`;
+			return axios
+				.get(url)
+				.then(result => result.data)
+				.then(
+					data => {
+						this.jobs = data.jobs;
+						this.search = search;
+						this.property = property;
+						this.object = object;
+						this.overview = data.overview;
+						this.loading = false;
+					},
+					() => {
+						this.loading = false;
+						this.jobs = [];
+					}
+				)
+				.catch(console.log);
+		},
 
-        this.fetchData(this.name, this.search, this.property, this.pagesize, this.skip, this.refresh, this.state, this.object)
-    },
-    refreshData() {
-      this.fetchData(this.name, this.search, this.property, this.pagesize, this.skip, this.refresh, this.state, this.object)
-    },
-    pagechange(action){
-
-      if(action === 'next'){
-        this.pagenumber++
-      }
-      if(action === 'prev'){
-        this.pagenumber--
-      }
-      this.skip = (this.pagenumber-1) * this.pagesize
-      this.fetchData(this.name, this.search, this.property, this.pagesize, this.skip, this.refresh,this.state, this.object)
-    },
-    fetchData(name = '', search = '', property = '', limit = 15, skip = 0, refresh = 60, state = '', object){
-      this.loading = true;
-      this.pagesize = this.pagesize === 0 ? parseInt(limit) : this.pagesize;
-      this.refresh = parseFloat(refresh);
-      const url = `api?limit=${limit}&job=${name}&skip=${skip}&property=${property}${object ? '&isObjectId=true' : ""}${state ? `&state=${state}`: ''}&q=${search}`;
-      return axios.get(url)
-        .then(result => result.data)
-        .then(
-          data => {
-          this.jobs = data.jobs;
-          this.search = search;
-          this.property = property;
-          this.object = object;
-          this.overview = data.overview;
-          this.loading = false;
-        },() => {
-          this.loading = false;
-          this.jobs = [];
-        }
-        )
-        .catch(console.log)
-    },
-
-    popupmessage(data){
-      if(data === 'delete'){
-        this.deletec = true
-        setTimeout(() => {
-          this.deletec = false
-        }, 2000);
-      }
-      if(data === 'multidelete'){
-        this.deletec = true
-        setTimeout(() => {
-          this.deletec = false
-        }, 2000);
-      }
-      if(data === 'requeue'){
-        this.requeuec = true
-        setTimeout(() => {
-          this.requeuec = false
-        }, 2000);
-      }
-      if(data === 'multirequeue'){
-        this.requeuec = true
-        setTimeout(() => {
-          this.requeuec = false
-        }, 2000);
-      }
-      if(data === 'create'){
-        this.createc = true
-        setTimeout(() => {
-          this.createc = false
-        }, 2000);
-      }
-    }
-    },
-  created() {
-    return this.fetchData();
-  },
-  template: `
+		popupmessage(data) {
+			if (data === 'delete') {
+				this.deletec = true;
+				setTimeout(() => {
+					this.deletec = false;
+				}, 2000);
+			}
+			if (data === 'multidelete') {
+				this.deletec = true;
+				setTimeout(() => {
+					this.deletec = false;
+				}, 2000);
+			}
+			if (data === 'requeue') {
+				this.requeuec = true;
+				setTimeout(() => {
+					this.requeuec = false;
+				}, 2000);
+			}
+			if (data === 'multirequeue') {
+				this.requeuec = true;
+				setTimeout(() => {
+					this.requeuec = false;
+				}, 2000);
+			}
+			if (data === 'create') {
+				this.createc = true;
+				setTimeout(() => {
+					this.createc = false;
+				}, 2000);
+			}
+		}
+	},
+	created() {
+		return this.fetchData();
+	},
+	template: `
 
     <div class="container-fluid">
       <div class="">
@@ -235,4 +274,4 @@ const app = Vue.component('app', {
       <new-job v-if="showNewJob" v-on:popup-message="popupmessage('create')" v-on:refresh-data="fetchData"></new-job>
   </div>
   `
-})
+});
