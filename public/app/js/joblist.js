@@ -26,6 +26,12 @@ const jobList = Vue.component('job-list', {
 			});
 		}
 	},
+	watch: {
+		jobs() {
+		  // reset multijobs when jobs have changed
+			this.multijobs = [];
+		}
+	},
 	methods: {
 		sort(s) {
 			// if s == current sort, reverse
@@ -36,11 +42,11 @@ const jobList = Vue.component('job-list', {
 		},
 		sendQueued() {
 			this.$emit('confirm-multi-requeue', this.multijobs);
-			this.multijobs = [];
+			// this.multijobs = [];
 		},
 		sendDelete() {
 			this.$emit('confirm-multi-delete', this.multijobs);
-			this.multijobs = [];
+			// this.multijobs = [];
 		},
 		cleanMulti() {
 			return console.log('received Clean Multi');

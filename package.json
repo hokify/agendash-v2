@@ -33,7 +33,7 @@
     "mongodb": "^3.6.2",
     "@hapi/hapi": "^20.0.1",
     "@hapi/inert": "^6.0.3",
-    "@hokify/agenda": "^4.0.6",
+    "@hokify/agenda": "^4.0.20",
     "async": "^3.2.0",
     "body-parser": "^1.19.0",
     "commander": "^6.1.0",
@@ -41,18 +41,18 @@
     "semver": "^7.3.2"
   },
   "devDependencies": {
-    "@hokify/eslint-config": "^0.5.5",
+    "@hokify/eslint-config": "^0.5.9",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",
     "ava": "^3.13.0",
     "eslint": "^7.11.0",
     "eslint-plugin-react-hooks": "^4.1.2",
     "eslint-plugin-unicorn": "^22.0.0",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.5",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.1.2",
     "supertest": "^5.0.0",
     "typescript": "^4.0.3",
-    "webpack": "^5.1.0"
+    "webpack": "^5.1.1"
   }
 }
