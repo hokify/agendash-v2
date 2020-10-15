@@ -3,7 +3,7 @@
     "@hokify/eslint-config"
   ],
   "parserOptions": {
-    "project": "tsconfig.json",
+    "project": "jsconfig.json",
     "ecmaVersion": 2015
   },
   "rules": {

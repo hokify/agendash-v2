@@ -10,6 +10,7 @@
   "scripts": {
     "postversion": "npm publish",
     "postpublish": "git push origin --all; git push origin --tags",
+    "lint": "eslint --fix '**/*.js'",
     "test": "run-p lint ava",
     "ava": "ava -v -c 1"
   },

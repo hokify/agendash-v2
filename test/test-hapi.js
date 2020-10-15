@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const test = require('ava');
 const supertest = require('supertest');
 const Hapi = require('hapi');
@@ -51,9 +52,9 @@ test.serial('POST /api/jobs/create should confirm the job exists', async t => {
 
 	t.true('created' in res.body);
 
-	agenda._collection.count({}, null, (err, res) => {
+	agenda._collection.count({}, null, (err, _res) => {
 		t.ifError(err);
-		if (res !== 1) {
+		if (_res !== 1) {
 			throw new Error('Expected one document in database');
 		}
 	});
